@@ -1,7 +1,15 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './app/app.component';
-import { config } from './app/app.config.server';
+import { ApplicationRef, enableProdMode } from '@angular/core';
+import { platformServer, renderModule, PlatformState } from '@angular/platform-server';
+import { NgModuleRef } from '@angular/core';
+import { AppServerModule } from './app/app.server.module';
+import { environment } from './environments/environment';
 
-const bootstrap = () => bootstrapApplication(AppComponent, config);
+if (environment.production) {
+  enableProdMode();
+}
 
-export default bootstrap;
+export default function bootstrap(): Promise<ApplicationRef> {
+  return platformServer().bootstrapModule(AppServerModule).then((moduleRef: NgModuleRef<AppServerModule>) => {
+    return moduleRef.injector.get(ApplicationRef);
+  });
+}

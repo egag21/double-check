@@ -1,1 +1,9 @@
-<p>budget-checklist works!</p>
+<!-- budget-checklist.component.html -->
+<app-budget-item (addItem)="addItem($event)"></app-budget-item>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let item of items$ | async">
+    {{ item.name }}: {{ item.amount | currency }}
+    <button class="btn btn-warning btn-sm" (click)="editBudgetItem(item)">Edit</button>
+    <button class="btn btn-danger btn-sm" (click)="deleteItem(item.id)">Delete</button>
+  </li>
+</ul>

@@ -1,24 +1,36 @@
-import { Component } from '@angular/core';
-import { FormGroupState, createFormGroupState, updateGroup, validate } from 'ngrx-forms';
-
-interface BudgetItemFormValue {
-  name: string;
-  amount: number;
-}
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroupState, createFormGroupState } from 'ngrx-forms';
+import { BudgetItem } from '../../state/budget.actions';
 
 @Component({
   selector: 'app-budget-item',
   templateUrl: './budget-item.component.html'
 })
 export class BudgetItemComponent {
-  formState: FormGroupState<BudgetItemFormValue>;
+  @Input() formState: FormGroupState<BudgetItem>;
+  @Output() addItem = new EventEmitter<BudgetItem>();
 
   constructor() {
-    this.formState = createFormGroupState<BudgetItemFormValue>('budgetItemForm', {
-      name: '',
-      amount: 0,
-    });
+    if (!this.formState) {
+      this.formState = createFormGroupState<BudgetItem>('budgetItemForm', {
+        id: '',
+        name: '',
+        amount: 0,
+      });
+    }
   }
 
-  // Add form validation and other logic here
+  onAddItem() {
+    if (this.formState.value.name && this.formState.value.amount) {
+      const budgetItem: BudgetItem = {
+        ...this.formState.value,
+        id: this.formState.value.id || this.generateId()
+      };
+      this.addItem.emit(budgetItem);
+    }
+  }
+
+  generateId(): string {
+    return Math.random().toString(36).substr(2, 9);
+  }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BudgetChecklistComponent } from './components/budget-checklist/budget-checklist.component';
@@ -15,6 +16,7 @@ import { budgetReducer } from './state/budget.reducer';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     StoreModule.forRoot({ budget: budgetReducer })
   ],
   providers: [],

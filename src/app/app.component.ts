@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { BudgetItem, addItem } from './state/budget.actions';
+import { BudgetState } from './state/budget.reducer';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'double-check';
+  constructor(private store: Store<{ budget: BudgetState }>) { }
+
+  onAddItem(item: BudgetItem) {
+    this.store.dispatch(addItem({ item }));
+  }
 }

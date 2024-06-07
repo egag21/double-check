@@ -1,4 +1,17 @@
+<!-- file: app.component.html -->
+
 <div class="container">
   <h1>Budget Manager</h1>
-  <app-budget-checklist></app-budget-checklist>
+
+  <h3>Income</h3>
+  <app-budget-checklist [type]="'Income'" (addItem)="onAddItem($event)"></app-budget-checklist>
+
+  <h3>Credit</h3>
+  <app-budget-checklist [type]="'Credit'" (addItem)="onAddItem($event)"></app-budget-checklist>
+
+  <h3>Monthly</h3>
+  <app-budget-checklist [type]="'Monthly'" (addItem)="onAddItem($event)"></app-budget-checklist>
+
+  <h3>Misc</h3>
+  <app-budget-checklist [type]="'Misc'" (addItem)="onAddItem($event)"></app-budget-checklist>
 </div>

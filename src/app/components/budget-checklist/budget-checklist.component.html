@@ -1,9 +1,27 @@
-<!-- budget-checklist.component.html -->
-<app-budget-item (addItem)="addItem($event)"></app-budget-item>
+<!-- file: budget-checklist.component.html -->
+
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let item of items$ | async">
-    {{ item.name }}: {{ item.amount | currency }}
-    <button class="btn btn-warning btn-sm" (click)="editBudgetItem(item)">Edit</button>
-    <button class="btn btn-danger btn-sm" (click)="deleteItem(item.id)">Delete</button>
+  <li class="list-group-item" *ngFor="let item of filteredItems$ | async"
+    [ngClass]="{'bg-light': editItem && editItem.id === item.id}">
+    <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
+      (updateItem)="updateItem($event)" [isEdit]="true">
+    </app-budget-item>
+    <div *ngIf="!editItem || editItem.id !== item.id">
+      <div class="row align-items-center">
+        <div class="col-md-4">{{ item.name }}</div>
+        <div class="col-md-2">{{ item.amount | currency }}</div>
+        <div class="col-md-4">{{ item.notes }}</div>
+        <div class="col-md-2 text-end"> <button class="btn btn-sm" (click)="editBudgetItem(item)"><i
+              class="fas fa-edit"></i></button>
+          <button class="btn btn-sm" (click)="deleteItem(item.id)"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    </div>
   </li>
 </ul>
+
+<app-budget-item *ngIf="showAddItem && !editItem" class="p-3" [formState]="editFormState" (addItem)="onAddItem($event)"
+  [isEdit]="false">
+</app-budget-item>
+
+<button class="btn btn-sm" (click)="toggleAddItem()"><i class="fas fa-plus"></i></button>

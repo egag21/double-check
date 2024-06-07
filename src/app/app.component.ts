@@ -1,3 +1,5 @@
+// file: app.component.ts
+
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BudgetItem, addItem } from './state/budget.actions';

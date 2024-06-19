@@ -21,7 +21,8 @@ export class BudgetItemComponent {
         name: '',
         amount: 0,
         type: 'Misc', // Default type
-        notes: ''
+        notes: '',
+        order: null
       });
     }
   }

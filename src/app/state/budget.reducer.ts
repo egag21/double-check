@@ -1,7 +1,7 @@
-// budeget.reducer.ts
+// file: budget.reducer.ts
 
 import { createReducer, on, Action } from '@ngrx/store';
-import { addItem, updateItem, deleteItem, BudgetItem } from './budget.actions';
+import { addItem, updateItem, deleteItem, updateOrder, BudgetItem } from './budget.actions';
 
 export interface BudgetState {
   items: BudgetItem[];
@@ -26,6 +26,10 @@ const _budgetReducer = createReducer(
   on(deleteItem, (state, { id }) => ({
     ...state,
     items: state.items.filter(item => item.id !== id)
+  })),
+  on(updateOrder, (state, { items }) => ({
+    ...state,
+    items: items
   }))
 );
 

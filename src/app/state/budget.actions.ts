@@ -2,12 +2,15 @@
 
 import { createAction, props } from '@ngrx/store';
 
+export const updateOrder = createAction('[Budget] Update Order', props<{ items: BudgetItem[] }>());
+
 export interface BudgetItem {
   id: string;
   name: string;
   amount: number;
   type: 'Income' | 'Credit' | 'Monthly' | 'Misc' | string;
   notes?: string;
+  order: number;
 }
 
 export const addItem = createAction('[Budget] Add Item', props<{ item: BudgetItem }>());

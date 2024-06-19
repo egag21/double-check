@@ -1,4 +1,4 @@
-// data.service.ts
+// file: data.service.ts
 
 import { Injectable } from '@angular/core';
 
@@ -9,15 +9,28 @@ export class DataService {
   private storageKey = 'budgetData';
 
   saveData(data: any): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(data));
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(data));
+    } catch (e) {
+      console.error('Error saving to localStorage', e);
+    }
   }
 
   loadData(): any {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : null;
+    try {
+      const data = localStorage.getItem(this.storageKey);
+      return data ? JSON.parse(data) : null;
+    } catch (e) {
+      console.error('Error loading from localStorage', e);
+      return null;
+    }
   }
 
   clearData(): void {
-    localStorage.removeItem(this.storageKey);
+    try {
+      localStorage.removeItem(this.storageKey);
+    } catch (e) {
+      console.error('Error clearing localStorage', e);
+    }
   }
 }

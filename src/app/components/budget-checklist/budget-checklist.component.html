@@ -1,18 +1,21 @@
 <!-- file: budget-checklist.component.html -->
 
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let item of filteredItems$ | async"
+<ul cdkDropList [cdkDropListConnectedTo]="connectedLists" class="list-group" (cdkDropListDropped)="drop($event, type)">
+  <li class="list-group-item" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag
     [ngClass]="{'bg-light': editItem && editItem.id === item.id}">
     <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
       (updateItem)="updateItem($event)" [isEdit]="true">
     </app-budget-item>
     <div *ngIf="!editItem || editItem.id !== item.id">
       <div class="row align-items-center">
-        <div class="col-md-4">{{ item.name }}</div>
+        <div class="col-auto">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="col-md-3">{{ item.name }}</div>
         <div class="col-md-2">{{ item.amount | currency }}</div>
         <div class="col-md-4">{{ item.notes }}</div>
-        <div class="col-md-2 text-end"> <button class="btn btn-sm" (click)="editBudgetItem(item)"><i
-              class="fas fa-edit"></i></button>
+        <div class="col-md-2 text-end">
+          <button class="btn btn-sm" (click)="editBudgetItem(item)"><i class="fas fa-edit"></i></button>
           <button class="btn btn-sm" (click)="deleteItem(item.id)"><i class="fas fa-trash"></i></button>
         </div>
       </div>

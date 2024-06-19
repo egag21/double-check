@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BudgetChecklistComponent } from './components/budget-checklist/budget-checklist.component';
 import { BudgetItemComponent } from './components/budget-item/budget-item.component';
 import { budgetReducer } from './state/budget.reducer';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { budgetReducer } from './state/budget.reducer';
   imports: [
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot({ budget: budgetReducer })
+    StoreModule.forRoot({ budget: budgetReducer }),
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

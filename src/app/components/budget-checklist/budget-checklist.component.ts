@@ -4,11 +4,12 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { BudgetItem, addItem, updateItem, deleteItem } from '../../state/budget.actions';
+import { BudgetItem, addItem, updateItem, deleteItem, updateOrder } from '../../state/budget.actions';
 import { BudgetState } from '../../state/budget.reducer';
 import { FormGroupState, createFormGroupState } from 'ngrx-forms';
 import { DataService } from '../../services/data.service';
 import { take } from 'rxjs/operators';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 
 @Component({
@@ -19,6 +20,8 @@ import { take } from 'rxjs/operators';
 export class BudgetChecklistComponent implements OnInit, OnDestroy {
   @Input() type: string;
   @Output() addItem = new EventEmitter<BudgetItem>();
+
+  connectedLists: string[] = ['Income', 'Credit', 'Monthly', 'Misc'];
 
   items$: Observable<BudgetItem[]>;
   filteredItems$: Observable<BudgetItem[]>;
@@ -32,7 +35,9 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
     private dataService: DataService
   ) {
     this.items$ = store.select(state => state.budget.items);
-    this.filteredItems$ = this.items$.pipe(map(items => items.filter(item => item.type === this.type)));
+    this.filteredItems$ = this.items$.pipe(
+      map(items => items.filter(item => item.type === this.type).sort((a, b) => a.order - b.order))
+    );
   }
 
   ngOnInit(): void {
@@ -71,13 +76,17 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
       name: '',
       amount: null,
       type: this.type, // Set the type based on the input
-      notes: ''
+      notes: '',
+      order: null
     });
   }
 
   onAddItem(item: BudgetItem): void {
-    this.addItem.emit(item);
-    this.showAddItem = false; // Hide the form after adding the item
+    this.filteredItems$.pipe(take(1)).subscribe(items => {
+      item.order = items.length; // Set the order to the current length of the items array
+      this.addItem.emit(item);
+      this.showAddItem = false; // Hide the form after adding the item
+    });
   }
 
   updateItem(item: BudgetItem): void {
@@ -95,4 +104,32 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
     this.editFormState = createFormGroupState<BudgetItem>('editBudgetItemForm', item);
     this.showAddItem = false; // Hide the add form if it was open
   }
+
+  drop(event: CdkDragDrop<BudgetItem[]>, targetType: string): void {
+    this.filteredItems$.pipe(take(1)).subscribe(items => {
+      const currentType = this.type;
+      if (event.previousContainer === event.container) {
+        const copiedItems = [...items];
+        moveItemInArray(copiedItems, event.previousIndex, event.currentIndex);
+        this.updateItemsOrder(copiedItems);
+      } else {
+        const previousItems = event.previousContainer.data;
+        const currentItems = event.container.data;
+        transferArrayItem(previousItems, currentItems, event.previousIndex, event.currentIndex);
+        this.updateItemsOrder(previousItems);
+        this.updateItemsOrder(currentItems);
+
+        // Update the type of the moved item
+        const movedItem = currentItems[event.currentIndex];
+        movedItem.type = targetType;
+        this.store.dispatch(updateItem({ item: movedItem }));
+      }
+    });
+  }
+
+  updateItemsOrder(items: BudgetItem[]): void {
+    const updatedItems = items.map((item, index) => ({ ...item, order: index }));
+    this.store.dispatch(updateOrder({ items: updatedItems }));
+  }
+
 }

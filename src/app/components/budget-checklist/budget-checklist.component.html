@@ -1,7 +1,8 @@
 <!-- file: budget-checklist.component.html -->
 
-<ul cdkDropList [cdkDropListConnectedTo]="connectedLists" class="list-group" (cdkDropListDropped)="drop($event, type)">
-  <li class="list-group-item" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag
+<ul cdkDropList [cdkDropListConnectedTo]="connectedLists" [cdkDropListData]="filteredItems$ | async" [id]="type"
+  class="list-group" (cdkDropListDropped)="drop($event, type)">
+  <li class="list-group-item" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag [cdkDragData]="item"
     [ngClass]="{'bg-light': editItem && editItem.id === item.id}">
     <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
       (updateItem)="updateItem($event)" [isEdit]="true">

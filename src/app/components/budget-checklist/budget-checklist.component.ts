@@ -106,25 +106,37 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<BudgetItem[]>, targetType: string): void {
-    this.filteredItems$.pipe(take(1)).subscribe(items => {
-      const currentType = this.type;
-      if (event.previousContainer === event.container) {
-        const copiedItems = [...items];
-        moveItemInArray(copiedItems, event.previousIndex, event.currentIndex);
-        this.updateItemsOrder(copiedItems);
-      } else {
-        const previousItems = event.previousContainer.data;
-        const currentItems = event.container.data;
-        transferArrayItem(previousItems, currentItems, event.previousIndex, event.currentIndex);
-        this.updateItemsOrder(previousItems);
-        this.updateItemsOrder(currentItems);
+    console.log('Drop event:', event);
 
-        // Update the type of the moved item
-        const movedItem = currentItems[event.currentIndex];
-        movedItem.type = targetType;
-        this.store.dispatch(updateItem({ item: movedItem }));
+    if (!event.previousContainer.data || !event.container.data) {
+      console.error('Container data is undefined');
+      return;
+    }
+
+    if (event.previousContainer === event.container) {
+      // Item was moved within the same list
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.updateItemsOrder(event.container.data);
+    } else {
+      // Item was moved to a different list
+      const previousContainerItems = event.previousContainer.data;
+      const containerItems = event.container.data;
+
+      if (!previousContainerItems[event.previousIndex]) {
+        console.error('Item at previous index is undefined');
+        return;
       }
-    });
+
+      // Update the type of the moved item
+      const item = previousContainerItems[event.previousIndex];
+      item.type = targetType;
+
+      transferArrayItem(previousContainerItems, containerItems, event.previousIndex, event.currentIndex);
+
+      // Update the order for both lists
+      this.updateItemsOrder(previousContainerItems);
+      this.updateItemsOrder(containerItems);
+    }
   }
 
   updateItemsOrder(items: BudgetItem[]): void {

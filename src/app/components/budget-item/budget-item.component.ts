@@ -20,6 +20,7 @@ export class BudgetItemComponent {
         id: '',
         name: '',
         amount: 0,
+        currentAmount: null,
         type: 'Misc', // Default type
         notes: '',
         order: null,

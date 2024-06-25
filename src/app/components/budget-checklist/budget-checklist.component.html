@@ -12,12 +12,18 @@
         <div class="col-md-1">
           <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
         </div>
-        <div class="col-md-4">{{ item.name }}</div>
+        <div class="col-md-3">{{ item.name }}</div>
 
-        <div class="col-md-2"><input type="checkbox" class="checked-item" [(ngModel)]="item.checked"
-            (change)="toggleCheckmark(item)" /> {{
-          item.amount | currency }}</div>
-        <div class="col-md-3">{{ item.notes }}</div>
+        <div class="col-md-1"> {{ item.amount | currency }}</div>
+        <div class="col-md-1 text-end"><input type="checkbox" class="checked-item" [(ngModel)]="item.checked"
+            (change)="toggleCheckmark(item)" /></div>
+
+        <div class="col-md-2">
+          <input type="number" class="current-amount" [ngModel]="item.currentAmount"
+            (ngModelChange)="updateCurrentAmount(item, $event)" [ngModelOptions]="{updateOn: 'blur'}" />
+        </div>
+
+        <div class="col-md-2">{{ item.notes }}</div>
         <div class="col-md-2 text-end">
           <span (click)="editBudgetItem(item)" class="" aria-label="Edit item">
             <i class="fas fa-edit"></i>

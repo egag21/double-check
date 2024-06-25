@@ -18,14 +18,8 @@ $expense-dark: #A63A45;
   border-color: $income-dark;
 
   .checked-item {
-
     &:checked {
       accent-color: $income-dark;
-    }
-
-    &:not(:checked) {
-      color: #f00;
-      /* Change this to your desired border color */
     }
   }
 }

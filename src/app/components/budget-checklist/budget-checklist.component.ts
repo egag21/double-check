@@ -75,6 +75,7 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
       id: '',
       name: '',
       amount: null,
+      currentAmount: null,
       type: this.type, // Set the type based on the input
       notes: '',
       order: null,
@@ -94,6 +95,11 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
     this.store.dispatch(updateItem({ item }));
     this.editItem = null; // Reset edit state
     this.editFormState = null; // Clear form state
+  }
+
+  updateCurrentAmount(item: BudgetItem, value: number): void {
+    const updatedItem = { ...item, currentAmount: value };
+    this.store.dispatch(updateItem({ item: updatedItem }));
   }
 
   deleteItem(id: string): void {

@@ -21,7 +21,7 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
   @Input() type: string;
   @Output() addItem = new EventEmitter<BudgetItem>();
 
-  connectedLists: string[] = ['Income', 'Credit', 'Monthly', 'Misc'];
+  connectedLists: string[] = ['Income', 'Tithe', 'Credit', 'Monthly', 'Misc'];
 
   items$: Observable<BudgetItem[]>;
   filteredItems$: Observable<BudgetItem[]>;
@@ -142,6 +142,25 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
   updateItemsOrder(items: BudgetItem[]): void {
     const updatedItems = items.map((item, index) => ({ ...item, order: index }));
     this.store.dispatch(updateOrder({ items: updatedItems }));
+  }
+
+  // Method to return appropriate CSS class based on the type
+  getTypeClass(): string {
+    console.log('Type:', this.type);
+    switch (this.type) {
+      case 'Income':
+        return 'income-background';
+      case 'Tithe':
+        return 'tithing-background';
+      case 'Credit':
+        return 'expense-background';
+      case 'Monthly':
+        return 'expense-background';
+      case 'Misc':
+        return 'expense-background';
+      default:
+        return 'expense-background';
+    }
   }
 
 }

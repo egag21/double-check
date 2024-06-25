@@ -3,23 +3,28 @@
 <ul cdkDropList [cdkDropListConnectedTo]="connectedLists" [cdkDropListData]="filteredItems$ | async" [id]="type"
   class="list-group" (cdkDropListDropped)="drop($event, type)">
   <li class="list-group-item" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag [cdkDragData]="item"
-    [ngClass]="{'bg-light': editItem && editItem.id === item.id}">
+    [ngClass]="getTypeClass()">
     <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
       (updateItem)="updateItem($event)" [isEdit]="true">
     </app-budget-item>
     <div *ngIf="!editItem || editItem.id !== item.id">
       <div class="row align-items-center">
         <div class="col-auto">
-          <i class="fas fa-bars"></i>
+          <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
         </div>
-        <div class="col-md-3">{{ item.name }}</div>
+        <div class="col-md-4">{{ item.name }}</div>
         <div class="col-md-2">{{ item.amount | currency }}</div>
-        <div class="col-md-4">{{ item.notes }}</div>
+        <div class="col-md-3">{{ item.notes }}</div>
         <div class="col-md-2 text-end">
-          <button class="btn btn-sm" (click)="editBudgetItem(item)"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-sm" (click)="deleteItem(item.id)"><i class="fas fa-trash"></i></button>
+          <span (click)="editBudgetItem(item)" class="" aria-label="Edit item">
+            <i class="fas fa-edit"></i>
+          </span>&nbsp;
+          <span (click)="deleteItem(item.id)" class="" aria-label="Delete item">
+            <i class="fas fa-trash"></i>
+          </span>
         </div>
       </div>
+
     </div>
   </li>
 </ul>

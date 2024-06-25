@@ -8,7 +8,7 @@ export interface BudgetItem {
   id: string;
   name: string;
   amount: number;
-  type: 'Income' | 'Credit' | 'Monthly' | 'Misc' | string;
+  type: 'Income' | 'Tithe' | 'Credit' | 'Monthly' | 'Misc' | string;
   notes?: string;
   order: number;
 }

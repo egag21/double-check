@@ -1,2 +1,31 @@
+// styles.scss
+
 @import '~@fortawesome/fontawesome-free/css/all.css';
-/* You can add global styles to this file, and also import other style files */
+
+// Light colors
+$income-light: #C6EFCE;
+$tithing-light: #FEEB9C;
+$expense-light: #FBC7CF;
+
+// Dark colors
+$income-dark: #3B7A3A;
+$tithing-dark: #AA7D16;
+$expense-dark: #A63A45;
+
+.income-background {
+  background-color: $income-light;
+  color: $income-dark;
+  border-color: $income-dark;
+}
+
+.tithing-background {
+  background-color: $tithing-light;
+  color: $tithing-dark;
+  border-color: $tithing-dark;
+}
+
+.expense-background {
+  background-color: $expense-light;
+  color: $expense-dark;
+  border-color: $expense-dark;
+}

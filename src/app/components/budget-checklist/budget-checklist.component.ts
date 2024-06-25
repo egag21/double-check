@@ -77,7 +77,8 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
       amount: null,
       type: this.type, // Set the type based on the input
       notes: '',
-      order: null
+      order: null,
+      checked: false
     });
   }
 
@@ -144,9 +145,13 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
     this.store.dispatch(updateOrder({ items: updatedItems }));
   }
 
+  toggleCheckmark(item: BudgetItem): void {
+    this.store.dispatch(updateItem({ item: { ...item, checked: !item.checked } }));
+  }
+
   // Method to return appropriate CSS class based on the type
   getTypeClass(): string {
-    console.log('Type:', this.type);
+    // console.log('Type:', this.type);
     switch (this.type) {
       case 'Income':
         return 'income-background';

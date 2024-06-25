@@ -22,7 +22,8 @@ export class BudgetItemComponent {
         amount: 0,
         type: 'Misc', // Default type
         notes: '',
-        order: null
+        order: null,
+        checked: false
       });
     }
   }

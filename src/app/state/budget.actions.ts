@@ -11,6 +11,7 @@ export interface BudgetItem {
   type: 'Income' | 'Tithe' | 'Credit' | 'Monthly' | 'Misc' | string;
   notes?: string;
   order: number;
+  checked: boolean;
 }
 
 export const addItem = createAction('[Budget] Add Item', props<{ item: BudgetItem }>());

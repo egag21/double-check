@@ -9,11 +9,14 @@
     </app-budget-item>
     <div *ngIf="!editItem || editItem.id !== item.id">
       <div class="row align-items-center">
-        <div class="col-auto">
+        <div class="col-md-1">
           <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
         </div>
         <div class="col-md-4">{{ item.name }}</div>
-        <div class="col-md-2">{{ item.amount | currency }}</div>
+
+        <div class="col-md-2"><input type="checkbox" class="checked-item" [(ngModel)]="item.checked"
+            (change)="toggleCheckmark(item)" /> {{
+          item.amount | currency }}</div>
         <div class="col-md-3">{{ item.notes }}</div>
         <div class="col-md-2 text-end">
           <span (click)="editBudgetItem(item)" class="" aria-label="Edit item">

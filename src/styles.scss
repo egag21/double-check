@@ -16,16 +16,40 @@ $expense-dark: #A63A45;
   background-color: $income-light;
   color: $income-dark;
   border-color: $income-dark;
+
+  .checked-item {
+
+    &:checked {
+      accent-color: $income-dark;
+    }
+
+    &:not(:checked) {
+      color: #f00;
+      /* Change this to your desired border color */
+    }
+  }
 }
 
 .tithing-background {
   background-color: $tithing-light;
   color: $tithing-dark;
   border-color: $tithing-dark;
+
+  .checked-item {
+    &:checked {
+      accent-color: $tithing-dark;
+    }
+  }
 }
 
 .expense-background {
   background-color: $expense-light;
   color: $expense-dark;
   border-color: $expense-dark;
+
+  .checked-item {
+    &:checked {
+      accent-color: $expense-dark;
+    }
+  }
 }

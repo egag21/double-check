@@ -1,39 +1,32 @@
 <!-- file: budget-checklist.component.html -->
-
 <ul cdkDropList [cdkDropListConnectedTo]="connectedLists" [cdkDropListData]="filteredItems$ | async" [id]="type"
   class="list-group" (cdkDropListDropped)="drop($event, type)">
-  <li class="list-group-item" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag [cdkDragData]="item"
-    [ngClass]="getTypeClass()">
+  <li class="list-group-item d-flex flex-column" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag
+    [cdkDragData]="item" [ngClass]="getTypeClass()">
     <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
       (updateItem)="updateItem($event)" [isEdit]="true">
     </app-budget-item>
-    <div *ngIf="!editItem || editItem.id !== item.id">
-      <div class="row align-items-center">
-        <div class="col-md-1">
-          <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
-        </div>
-        <div class="col-md-3">{{ item.name }}</div>
-
-        <div class="col-md-1"> {{ item.amount | currency }}</div>
-        <div class="col-md-1 text-end"><input type="checkbox" class="checked-item" [(ngModel)]="item.checked"
-            (change)="toggleCheckmark(item)" /></div>
-
-        <div class="col-md-2">
-          <input type="number" class="current-amount" [ngModel]="item.currentAmount"
-            (ngModelChange)="updateCurrentAmount(item, $event)" [ngModelOptions]="{updateOn: 'blur'}" />
-        </div>
-
-        <div class="col-md-2">{{ item.notes }}</div>
-        <div class="col-md-2 text-end">
-          <span (click)="editBudgetItem(item)" class="" aria-label="Edit item">
-            <i class="fas fa-edit"></i>
-          </span>&nbsp;
-          <span (click)="deleteItem(item.id)" class="" aria-label="Delete item">
-            <i class="fas fa-trash"></i>
-          </span>
-        </div>
+    <div *ngIf="!editItem || editItem.id !== item.id" class="d-flex flex-column flex-md-row align-items-md-center">
+      <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
+        <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
       </div>
-
+      <div class="flex-grow-1 mb-2 mb-md-0 me-md-3">{{ item.name }}</div>
+      <div class="mb-2 mb-md-0 me-md-3"> {{ item.amount | currency }}</div>
+      <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
+        <div class="me-2"> <input type="checkbox" class="checked-item" [(ngModel)]="item.checked"
+            (change)="toggleCheckmark(item)" /></div>
+        <div><input type="number" class="current-amount" [ngModel]="item.currentAmount"
+            (ngModelChange)="updateCurrentAmount(item, $event)" [ngModelOptions]="{updateOn: 'blur'}" /></div>
+      </div>
+      <div class="mb-2 mb-md-0 me-md-3">{{ item.notes }}</div>
+      <div class="d-flex align-items-center">
+        <span (click)="editBudgetItem(item)" aria-label="Edit item" class="me-2">
+          <i class="fas fa-edit"></i>
+        </span>
+        <span (click)="deleteItem(item.id)" aria-label="Delete item">
+          <i class="fas fa-trash"></i>
+        </span>
+      </div>
     </div>
   </li>
 </ul>

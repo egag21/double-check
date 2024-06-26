@@ -36,7 +36,7 @@ export class BudgetItemComponent {
   }
 
   onSubmit() {
-    if (this.formState.value.name && this.formState.value.amount) {
+    if (this.formState.value.name) {
       const budgetItem: BudgetItem = {
         ...this.formState.value,
         id: this.formState.value.id || this.generateId()
@@ -47,7 +47,7 @@ export class BudgetItemComponent {
         this.addItem.emit(budgetItem);
       }
     } else {
-      alert("Name and amount are required");
+      alert("A name is required");
     }
   }
 

@@ -1,7 +1,9 @@
+// file: app.module.ts
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // <-- Ensure this is imported
 
 import { AppComponent } from './app.component';
 import { BudgetChecklistComponent } from './components/budget-checklist/budget-checklist.component';
@@ -17,7 +19,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    FormsModule, // <-- Ensure this is included
     StoreModule.forRoot({ budget: budgetReducer }),
     DragDropModule
   ],

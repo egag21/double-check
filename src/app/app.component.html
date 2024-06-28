@@ -1,10 +1,12 @@
 <!-- file: app.component.html -->
 <div class="container">
-  <div class="dropdown mb-3">
-    <select #dateSelect class="form-select" [(ngModel)]="selectedDate">
-      <option *ngFor="let date of dates">{{ date }}</option>
-    </select>
-    <button class="btn btn-primary ms-2" (click)="addDate()">
+  <div class="d-flex align-items-center mb-3">
+    <div class="position-relative">
+      <select #dateSelect class="form-select" [(ngModel)]="selectedDate" [style.width]="dropdownWidth">
+        <option *ngFor="let date of dates">{{ date }}</option>
+      </select>
+    </div>
+    <button class="btn btn-primary ms-3" (click)="addDate()">
       <i class="fa fa-plus"></i>
     </button>
   </div>

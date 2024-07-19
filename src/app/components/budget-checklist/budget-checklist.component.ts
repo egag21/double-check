@@ -19,6 +19,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 export class BudgetChecklistComponent implements OnInit, OnDestroy {
   @Input() type: string;
+  @Input() selMonth: string;
   @Output() addItem = new EventEmitter<BudgetItem>();
 
   connectedLists: string[] = ['Income', 'Tithe', 'Credit', 'Monthly', 'Misc'];
@@ -79,7 +80,8 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
       type: this.type, // Set the type based on the input
       notes: '',
       order: null,
-      checked: false
+      checked: false,
+      month: this.selMonth
     });
   }
 

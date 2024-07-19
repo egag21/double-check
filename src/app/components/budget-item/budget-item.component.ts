@@ -10,6 +10,7 @@ import { BudgetItem } from '../../state/budget.actions';
 })
 export class BudgetItemComponent {
   @Input() formState: FormGroupState<BudgetItem>;
+  @Input() selMonth: string
   @Output() addItem = new EventEmitter<BudgetItem>();
   @Output() updateItem = new EventEmitter<BudgetItem>();
   @Input() isEdit: boolean = false;
@@ -24,7 +25,8 @@ export class BudgetItemComponent {
         type: 'Misc', // Default type
         notes: '',
         order: null,
-        checked: false
+        checked: false,
+        month: this.selMonth
       });
     }
   }

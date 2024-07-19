@@ -1,38 +1,71 @@
 <!-- file: budget-checklist.component.html -->
+<!--
+  This component displays a checklist of budget items which can be dragged and dropped.
+  It allows editing, deleting, and adding new budget items.
+-->
+
+<!-- Container for the list of budget items -->
 <ul cdkDropList [cdkDropListConnectedTo]="connectedLists" [cdkDropListData]="filteredItems$ | async" [id]="type"
   class="list-group" (cdkDropListDropped)="drop($event, type)">
-  <li class="list-group-item d-flex flex-column" *ngFor="let item of filteredItems$ | async; let i = index" cdkDrag
-    [cdkDragData]="item" [ngClass]="getTypeClass()">
-    <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
-      (updateItem)="updateItem($event)" [isEdit]="true">
-    </app-budget-item>
-    <div *ngIf="!editItem || editItem.id !== item.id" class="d-flex flex-column flex-md-row align-items-md-center">
-      <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
-        <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
+
+  <!-- Iterate through each budget item in the list -->
+  <ng-container *ngFor="let item of filteredItems$ | async; let i = index">
+    <li *ngIf="item.month === selMonth" class="list-group-item d-flex flex-column" cdkDrag [cdkDragData]="item"
+      [ngClass]="getTypeClass()">
+
+      <!-- Inline editing form for the budget item -->
+      <app-budget-item *ngIf="editItem && editItem.id === item.id" [formState]="editFormState"
+        (updateItem)="updateItem($event)" [isEdit]="true">
+      </app-budget-item>
+
+      <!-- Display budget item details if not in edit mode -->
+      <div *ngIf="!editItem || editItem.id !== item.id" class="d-flex flex-column flex-md-row align-items-md-center">
+
+        <!-- Drag handle for the item -->
+        <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
+          <i class="fas fa-bars" cdkDragHandle aria-hidden="true"></i>
+        </div>
+
+        <!-- Item name -->
+        <div class="flex-grow-1 mb-2 mb-md-0 me-md-3">{{ item.name }}</div>
+
+        <!-- Item amount formatted as currency -->
+        <div class="mb-2 mb-md-0 me-md-3">{{ item.amount | currency }}</div>
+
+        <!-- Checkbox and current amount input field -->
+        <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
+          <div class="me-2">
+            <input type="checkbox" class="checked-item" [(ngModel)]="item.checked" (change)="toggleCheckmark(item)" />
+          </div>
+          <div>
+            <input type="number" class="current-amount" [ngModel]="item.currentAmount"
+              (ngModelChange)="updateCurrentAmount(item, $event)" [ngModelOptions]="{updateOn: 'blur'}" />
+          </div>
+        </div>
+
+        <!-- Item notes -->
+        <div class="mb-2 mb-md-0 me-md-3">{{ item.notes }}</div>
+
+        <!-- Edit and delete buttons -->
+        <div class="d-flex align-items-center">
+          <span (click)="editBudgetItem(item)" aria-label="Edit item" class="me-2">
+            <i class="fas fa-edit"></i>
+          </span>
+          <span (click)="deleteItem(item.id)" aria-label="Delete item">
+            <i class="fas fa-trash"></i>
+          </span>
+        </div>
       </div>
-      <div class="flex-grow-1 mb-2 mb-md-0 me-md-3">{{ item.name }}</div>
-      <div class="mb-2 mb-md-0 me-md-3"> {{ item.amount | currency }}</div>
-      <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
-        <div class="me-2"> <input type="checkbox" class="checked-item" [(ngModel)]="item.checked"
-            (change)="toggleCheckmark(item)" /></div>
-        <div><input type="number" class="current-amount" [ngModel]="item.currentAmount"
-            (ngModelChange)="updateCurrentAmount(item, $event)" [ngModelOptions]="{updateOn: 'blur'}" /></div>
-      </div>
-      <div class="mb-2 mb-md-0 me-md-3">{{ item.notes }}</div>
-      <div class="d-flex align-items-center">
-        <span (click)="editBudgetItem(item)" aria-label="Edit item" class="me-2">
-          <i class="fas fa-edit"></i>
-        </span>
-        <span (click)="deleteItem(item.id)" aria-label="Delete item">
-          <i class="fas fa-trash"></i>
-        </span>
-      </div>
-    </div>
-  </li>
+    </li>
+  </ng-container>
 </ul>
 
+<!-- Form for adding a new budget item -->
 <app-budget-item *ngIf="showAddItem && !editItem" class="p-3" [formState]="editFormState" (addItem)="onAddItem($event)"
   [isEdit]="false">
 </app-budget-item>
 
-<button class="btn btn-sm" (click)="toggleAddItem()"><i class="fas fa-plus"></i></button>
+<!-- Button to toggle the add item form -->
+<button class="btn btn-sm" (click)="toggleAddItem()">
+  <i class="fas fa-plus"></i>
+</button>

@@ -4,6 +4,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BudgetItem, addItem } from './state/budget.actions';
 import { BudgetState } from './state/budget.reducer';
+import { on } from 'events';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +18,24 @@ export class AppComponent implements AfterViewInit {
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-  dates: string[] = ['June 24'];
-  selectedDate: string = this.dates[0];
+  dates: string[] = ['July 24'];
+  selectedDate: string = this.dates[this.dates.length - 1];
+  curMonth: string;
   dropdownWidth: string = 'auto';
 
   constructor(private store: Store<{ budget: BudgetState }>) { }
 
+  ngOnInit() {
+    this.onDateChange(this.dates[this.dates.length - 1])
+  }
+
   ngAfterViewInit() {
     this.updateDropdownWidth();
+  }
+
+  onDateChange(newDate: string): void {
+    this.curMonth = newDate;
+    console.log('curMonth updated to:', this.curMonth);
   }
 
   onAddItem(item: BudgetItem) {
@@ -46,6 +57,7 @@ export class AppComponent implements AfterViewInit {
     const newDate = `${this.months[monthIndex]} ${year}`;
     this.dates.push(newDate);
     this.selectedDate = newDate;
+    this.onDateChange(newDate);
 
     this.updateDropdownWidth();
 

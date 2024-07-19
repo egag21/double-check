@@ -14,7 +14,7 @@ export const updateOrder = createAction('[Budget] Update Order', props<{ items: 
 export interface BudgetItem {
   id: string; // Unique identifier for the budget item
   name: string; // Name of the budget item
-  amount: number; // Amount allocated to the budget item
+  amount?: number; // Amount allocated to the budget item
   currentAmount?: number; // Optional current amount for the budget item
   type: 'Income' | 'Tithe' | 'Credit' | 'Monthly' | 'Misc' | string; // Type of budget item
   notes?: string; // Optional notes about the budget item
@@ -40,3 +40,11 @@ export const updateItem = createAction('[Budget] Update Item', props<{ item: Bud
  * @param id - The unique identifier of the budget item to delete.
  */
 export const deleteItem = createAction('[Budget] Delete Item', props<{ id: string }>());
+
+
+/**
+ * Action to duplicate budget items to a new month.
+ * @param currentMonth - The current month to duplicate items from.
+ * @param newMonth - The new month to duplicate items to.
+ */
+export const duplicateItems = createAction('[Budget] Duplicate Items', props<{ currentMonth: string, newMonth: string }>());

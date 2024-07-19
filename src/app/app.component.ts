@@ -2,7 +2,7 @@
 
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BudgetItem, addItem } from './state/budget.actions';
+import { BudgetItem, addItem, duplicateItems } from './state/budget.actions';
 import { BudgetState } from './state/budget.reducer';
 import { on } from 'events';
 
@@ -18,7 +18,7 @@ export class AppComponent implements AfterViewInit {
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-  dates: string[] = ['July 24'];
+  dates: string[] = this.loadDatesFromLocalStorage();
   selectedDate: string = this.dates[this.dates.length - 1];
   curMonth: string;
   dropdownWidth: string = 'auto';
@@ -61,6 +61,12 @@ export class AppComponent implements AfterViewInit {
 
     this.updateDropdownWidth();
 
+    // Duplicate items from current month to new month
+    this.store.dispatch(duplicateItems({ currentMonth: lastDate, newMonth: newDate }));
+
+    // Save dates to local storage
+    this.saveDatesToLocalStorage();
+
     // Set focus to the select element
     setTimeout(() => {
       this.dateSelect.nativeElement.focus();
@@ -75,4 +81,22 @@ export class AppComponent implements AfterViewInit {
       this.dropdownWidth = `${width + 10}px`; // Add some padding to avoid clipping
     }, 0);
   }
+
+  getCurrentMonthAndYear(): string {
+    const now = new Date();
+    const month = this.months[now.getMonth()];
+    const year = now.getFullYear().toString().slice(-2);
+
+    return `${month} ${year}`;
+  }
+
+  private loadDatesFromLocalStorage(): string[] {
+    const dates = localStorage.getItem('budgetDates');
+    return dates ? JSON.parse(dates) : [this.getCurrentMonthAndYear()];
+  }
+
+  private saveDatesToLocalStorage(): void {
+    localStorage.setItem('budgetDates', JSON.stringify(this.dates));
+  }
+
 }

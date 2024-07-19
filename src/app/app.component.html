@@ -1,5 +1,5 @@
 <!-- file: app.component.html -->
-<div class="container">
+<div class="container mt-3">
   <div class="d-flex align-items-center mb-3">
     <div class="position-relative">
       <select #dateSelect class="form-select" [(ngModel)]="selectedDate" (change)="onDateChange(dateSelect.value)"
@@ -12,9 +12,7 @@
     </button>
   </div>
 
-  curMonth: {{ curMonth }}<br>
-
-  <h1>Budget Manager</h1>
+  <h1>DoubleCheck Budget Manager</h1>
 
   <h3>Income</h3>
   <app-budget-checklist [type]="'Income'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>

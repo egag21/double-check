@@ -12,6 +12,10 @@ $income-dark: #3B7A3A;
 $tithing-dark: #AA7D16;
 $expense-dark: #A63A45;
 
+.caution-checkbox {
+  accent-color: #1407c5 !important;
+}
+
 .income-background {
   background-color: $income-light;
   color: $income-dark;

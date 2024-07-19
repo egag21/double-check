@@ -35,7 +35,8 @@
         <!-- Checkbox and current amount input field -->
         <div class="d-flex align-items-center mb-2 mb-md-0 me-md-3">
           <div class="me-2">
-            <input type="checkbox" class="checked-item" [(ngModel)]="item.checked" (change)="toggleCheckmark(item)" />
+            <input type="checkbox" class="checked-item" [(ngModel)]="item.checked" (change)="toggleCheckmark(item)"
+              [ngClass]="{'caution-checkbox': item.currentAmount === null}" />
           </div>
           <div>
             <input type="number" class="current-amount" [ngModel]="item.currentAmount"

@@ -3,7 +3,7 @@
 // Import necessary functions and types from @ngrx/store and budget.actions
 import { createReducer, on } from '@ngrx/store';
 import { BudgetItem } from './budget.actions';
-import { addItem, updateItem, deleteItem, updateOrder } from './budget.actions';
+import { addItem, updateItem, deleteItem, updateOrder, duplicateItems } from './budget.actions';
 
 // Define the structure of the BudgetState interface
 export interface BudgetState {
@@ -49,5 +49,25 @@ export const budgetReducer = createReducer(
       const updatedItem = items.find(i => i.id === item.id); // Find the updated item with the same id
       return updatedItem ? updatedItem : item; // Replace with updated item or keep the original if not found
     })
+  })),
+
+  on(duplicateItems, (state, { currentMonth, newMonth }) => ({
+    ...state,
+    items: [
+      ...state.items,
+      ...state.items
+        .filter(item => item.month === currentMonth)
+        .map(item => ({
+          ...item,
+          id: generateNewId(),
+          month: newMonth,
+          amount: item.currentAmount !== null ? item.currentAmount : item.amount,
+          currentAmount: null
+        }))
+    ]
   }))
 );
+
+function generateNewId(): string {
+  return Math.random().toString(36).substr(2, 9);
+}

@@ -14,51 +14,51 @@
 
   <h1>DoubleCheck Budget Manager</h1>
 
-  <h3>
+  <h3 class="mt-4 d-inline-block align-middle">
     Income
-    <button class="btn btn-sm" (click)="createNewItem('Income')">
+    <a href="javascript:void(0)" (click)="createNewItem('Income')" class="ml-2 text-body">
       <i class="fas fa-plus"></i>
-    </button>
+    </a>
   </h3>
   <app-budget-checklist [type]="'Income'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3>
+  <h3 class="mt-4 d-inline-block align-middle">
     Tithe
-    <button class="btn btn-sm" (click)="createNewItem('Tithe')">
+    <a href="javascript:void(0)" (click)="createNewItem('Tithe')" class="ml-2 text-body">
       <i class="fas fa-plus"></i>
-    </button>
+    </a>
   </h3>
   <app-budget-checklist [type]="'Tithe'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3>
+  <h3 class="mt-4 d-inline-block align-middle">
     Credit
-    <button class="btn btn-sm" (click)="createNewItem('Credit')">
+    <a href="javascript:void(0)" (click)="createNewItem('Credit')" class="ml-2 text-body">
       <i class="fas fa-plus"></i>
-    </button>
+    </a>
   </h3>
   <app-budget-checklist [type]="'Credit'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3>
+  <h3 class="mt-4 d-inline-block align-middle">
     Savings
-    <button class="btn btn-sm" (click)="createNewItem('Savings')">
+    <a href="javascript:void(0)" (click)="createNewItem('Savings')" class="ml-2 text-body">
       <i class="fas fa-plus"></i>
-    </button>
+    </a>
   </h3>
   <app-budget-checklist [type]="'Savings'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3>
+  <h3 class="mt-4 d-inline-block align-middle">
     To Germany
-    <button class="btn btn-sm" (click)="createNewItem('ToGermany')">
+    <a href="javascript:void(0)" (click)="createNewItem('ToGermany')" class="ml-2 text-body">
       <i class="fas fa-plus"></i>
-    </button>
+    </a>
   </h3>
   <app-budget-checklist [type]="'ToGermany'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3>
+  <h3 class="mt-4 d-inline-block align-middle">
     Misc
-    <button class="btn btn-sm" (click)="createNewItem('Misc')">
+    <a href="javascript:void(0)" (click)="createNewItem('Misc')" class="ml-2 text-body">
       <i class="fas fa-plus"></i>
-    </button>
+    </a>
   </h3>
   <app-budget-checklist [type]="'Misc'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
 

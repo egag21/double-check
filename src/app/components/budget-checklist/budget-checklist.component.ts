@@ -11,7 +11,6 @@ import { DataService } from '../../services/data.service';
 import { take } from 'rxjs/operators';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-
 @Component({
   selector: 'app-budget-checklist',
   templateUrl: './budget-checklist.component.html',
@@ -175,5 +174,4 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
         return 'expense-background';
     }
   }
-
 }

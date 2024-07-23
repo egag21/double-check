@@ -1,10 +1,9 @@
 // file: app.component.ts
 
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ViewChildren, ElementRef, AfterViewInit, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BudgetItem, addItem, duplicateItems } from './state/budget.actions';
 import { BudgetState } from './state/budget.reducer';
-import { on } from 'events';
 import { BudgetChecklistComponent } from './components/budget-checklist/budget-checklist.component';
 
 @Component({
@@ -14,7 +13,7 @@ import { BudgetChecklistComponent } from './components/budget-checklist/budget-c
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('dateSelect') dateSelect!: ElementRef<HTMLSelectElement>;
-  @ViewChild(BudgetChecklistComponent) newItem!: BudgetChecklistComponent
+  @ViewChildren(BudgetChecklistComponent) checklistComponents!: QueryList<BudgetChecklistComponent>;
 
   months: string[] = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -28,7 +27,7 @@ export class AppComponent implements AfterViewInit {
   constructor(private store: Store<{ budget: BudgetState }>) { }
 
   ngOnInit() {
-    this.onDateChange(this.dates[this.dates.length - 1])
+    this.onDateChange(this.dates[this.dates.length - 1]);
   }
 
   ngAfterViewInit() {
@@ -36,7 +35,10 @@ export class AppComponent implements AfterViewInit {
   }
 
   createNewItem(itemType: string) {
-    this.newItem.toggleAddItem(itemType);
+    const targetComponent = this.checklistComponents.find(comp => comp.type === itemType);
+    if (targetComponent) {
+      targetComponent.toggleAddItem(itemType);
+    }
   }
 
   onDateChange(newDate: string): void {
@@ -104,5 +106,4 @@ export class AppComponent implements AfterViewInit {
   private saveDatesToLocalStorage(): void {
     localStorage.setItem('budgetDates', JSON.stringify(this.dates));
   }
-
 }

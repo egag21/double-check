@@ -16,7 +16,7 @@ export interface BudgetItem {
   name: string; // Name of the budget item
   amount?: number; // Amount allocated to the budget item
   currentAmount?: number; // Optional current amount for the budget item
-  type: 'Income' | 'Tithe' | 'Credit' | 'Monthly' | 'Misc' | string; // Type of budget item
+  type: 'Income' | 'Tithe' | 'Credit' | 'Savings' | 'ToGermany' | 'Misc' | string; // Type of budget item
   notes?: string; // Optional notes about the budget item
   order: number; // Order position of the budget item
   checked: boolean; // Indicates if the budget item is checked

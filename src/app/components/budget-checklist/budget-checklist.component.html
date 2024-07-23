@@ -65,8 +65,3 @@
 <app-budget-item *ngIf="showAddItem && !editItem" class="p-3" [formState]="editFormState" (addItem)="onAddItem($event)"
   [isEdit]="false">
 </app-budget-item>
-
-<!-- Button to toggle the add item form -->
-<button class="btn btn-sm" (click)="toggleAddItem()">
-  <i class="fas fa-plus"></i>
-</button>

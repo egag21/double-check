@@ -60,9 +60,10 @@ export const budgetReducer = createReducer(
         .map(item => ({
           ...item,
           id: generateNewId(),
+          checked: false,
           month: newMonth,
           amount: item.currentAmount !== null ? item.currentAmount : item.amount,
-          currentAmount: null
+          currentAmount: item.currentAmount
         }))
     ]
   }))

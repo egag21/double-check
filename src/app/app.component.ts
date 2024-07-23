@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { BudgetItem, addItem, duplicateItems } from './state/budget.actions';
 import { BudgetState } from './state/budget.reducer';
 import { on } from 'events';
+import { BudgetChecklistComponent } from './components/budget-checklist/budget-checklist.component';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { on } from 'events';
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('dateSelect') dateSelect!: ElementRef<HTMLSelectElement>;
+  @ViewChild(BudgetChecklistComponent) newItem!: BudgetChecklistComponent
 
   months: string[] = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -31,6 +33,10 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.updateDropdownWidth();
+  }
+
+  createNewItem(itemType: string) {
+    this.newItem.toggleAddItem(itemType);
   }
 
   onDateChange(newDate: string): void {

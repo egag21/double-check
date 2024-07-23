@@ -69,7 +69,7 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleAddItem(): void {
+  toggleAddItem(itemType: string): void {
     this.showAddItem = !this.showAddItem;
     this.editItem = null; // Reset edit item
     this.editFormState = createFormGroupState<BudgetItem>('budgetItemForm', {
@@ -77,7 +77,7 @@ export class BudgetChecklistComponent implements OnInit, OnDestroy {
       name: '',
       amount: null,
       currentAmount: null,
-      type: this.type, // Set the type based on the input
+      type: itemType,
       notes: '',
       order: null,
       checked: false,

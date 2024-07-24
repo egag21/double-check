@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { BudgetItem, addItem, duplicateItems } from './state/budget.actions';
 import { BudgetState } from './state/budget.reducer';
 import { BudgetChecklistComponent } from './components/budget-checklist/budget-checklist.component';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,22 @@ export class AppComponent implements AfterViewInit {
   curMonth: string;
   dropdownWidth: string = 'auto';
 
-  constructor(private store: Store<{ budget: BudgetState }>) { }
+  totalIncome$: Observable<number>;
+  totalTithe$: Observable<number>;
+  totalCredit$: Observable<number>;
+  totalSavings$: Observable<number>;
+  totalToGermany$: Observable<number>;
+  totalMisc$: Observable<number>;
+  netTotal: number;
+
+  constructor(private store: Store<{ budget: BudgetState }>) {
+    this.totalIncome$ = this.getTotalByType('Income');
+    this.totalTithe$ = this.getTotalByType('Tithe');
+    this.totalCredit$ = this.getTotalByType('Credit');
+    this.totalSavings$ = this.getTotalByType('Savings');
+    this.totalToGermany$ = this.getTotalByType('ToGermany');
+    this.totalMisc$ = this.getTotalByType('Misc');
+  }
 
   ngOnInit() {
     this.onDateChange(this.dates[this.dates.length - 1]);
@@ -44,10 +61,12 @@ export class AppComponent implements AfterViewInit {
   onDateChange(newDate: string): void {
     this.curMonth = newDate;
     console.log('curMonth updated to:', this.curMonth);
+    this.updateTotals();
   }
 
   onAddItem(item: BudgetItem) {
     this.store.dispatch(addItem({ item }));
+    this.updateTotals();
   }
 
   addDate() {
@@ -105,5 +124,22 @@ export class AppComponent implements AfterViewInit {
 
   private saveDatesToLocalStorage(): void {
     localStorage.setItem('budgetDates', JSON.stringify(this.dates));
+  }
+
+  getTotalByType(type: string): Observable<number> {
+    return this.store.select('budget').pipe(
+      map(state => state.items
+        .filter(item => item.type === type && item.month === this.curMonth)
+        .reduce((total, item) => total + (item.currentAmount || 0), 0))
+    );
+  }
+
+  updateTotals() {
+    this.totalIncome$ = this.getTotalByType('Income');
+    this.totalTithe$ = this.getTotalByType('Tithe');
+    this.totalCredit$ = this.getTotalByType('Credit');
+    this.totalSavings$ = this.getTotalByType('Savings');
+    this.totalToGermany$ = this.getTotalByType('ToGermany');
+    this.totalMisc$ = this.getTotalByType('Misc');
   }
 }

@@ -14,52 +14,115 @@
 
   <h1>DoubleCheck Budget Manager</h1>
 
-  <h3 class="mt-4 d-inline-block align-middle">
-    Income
-    <a href="javascript:void(0)" (click)="createNewItem('Income')" class="ml-2 text-body">
-      <i class="fas fa-plus"></i>
-    </a>
-  </h3>
-  <app-budget-checklist [type]="'Income'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-9" style="min-width: 400px;">
 
-  <h3 class="mt-4 d-inline-block align-middle">
-    Tithe
-    <a href="javascript:void(0)" (click)="createNewItem('Tithe')" class="ml-2 text-body">
-      <i class="fas fa-plus"></i>
-    </a>
-  </h3>
-  <app-budget-checklist [type]="'Tithe'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
+        <h3 class="mt-4 d-inline-block align-middle">
+          Income
+          <a href="javascript:void(0)" (click)="createNewItem('Income')" class="ml-2 text-body">
+            <i class="fas fa-plus"></i>
+          </a>
+        </h3>
+        <app-budget-checklist [type]="'Income'" [selMonth]="curMonth"
+          (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3 class="mt-4 d-inline-block align-middle">
-    Credit
-    <a href="javascript:void(0)" (click)="createNewItem('Credit')" class="ml-2 text-body">
-      <i class="fas fa-plus"></i>
-    </a>
-  </h3>
-  <app-budget-checklist [type]="'Credit'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
+        <h3 class="mt-4 d-inline-block align-middle">
+          Tithe
+          <a href="javascript:void(0)" (click)="createNewItem('Tithe')" class="ml-2 text-body">
+            <i class="fas fa-plus"></i>
+          </a>
+        </h3>
+        <app-budget-checklist [type]="'Tithe'" [selMonth]="curMonth"
+          (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3 class="mt-4 d-inline-block align-middle">
-    Savings
-    <a href="javascript:void(0)" (click)="createNewItem('Savings')" class="ml-2 text-body">
-      <i class="fas fa-plus"></i>
-    </a>
-  </h3>
-  <app-budget-checklist [type]="'Savings'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
+        <h3 class="mt-4 d-inline-block align-middle">
+          Credit
+          <a href="javascript:void(0)" (click)="createNewItem('Credit')" class="ml-2 text-body">
+            <i class="fas fa-plus"></i>
+          </a>
+        </h3>
+        <app-budget-checklist [type]="'Credit'" [selMonth]="curMonth"
+          (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3 class="mt-4 d-inline-block align-middle">
-    To Germany
-    <a href="javascript:void(0)" (click)="createNewItem('ToGermany')" class="ml-2 text-body">
-      <i class="fas fa-plus"></i>
-    </a>
-  </h3>
-  <app-budget-checklist [type]="'ToGermany'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
+        <h3 class="mt-4 d-inline-block align-middle">
+          Savings
+          <a href="javascript:void(0)" (click)="createNewItem('Savings')" class="ml-2 text-body">
+            <i class="fas fa-plus"></i>
+          </a>
+        </h3>
+        <app-budget-checklist [type]="'Savings'" [selMonth]="curMonth"
+          (addItem)="onAddItem($event)"></app-budget-checklist>
 
-  <h3 class="mt-4 d-inline-block align-middle">
-    Misc
-    <a href="javascript:void(0)" (click)="createNewItem('Misc')" class="ml-2 text-body">
-      <i class="fas fa-plus"></i>
-    </a>
-  </h3>
-  <app-budget-checklist [type]="'Misc'" [selMonth]="curMonth" (addItem)="onAddItem($event)"></app-budget-checklist>
+        <h3 class="mt-4 d-inline-block align-middle">
+          To Germany
+          <a href="javascript:void(0)" (click)="createNewItem('ToGermany')" class="ml-2 text-body">
+            <i class="fas fa-plus"></i>
+          </a>
+        </h3>
+        <app-budget-checklist [type]="'ToGermany'" [selMonth]="curMonth"
+          (addItem)="onAddItem($event)"></app-budget-checklist>
 
+        <h3 class="mt-4 d-inline-block align-middle">
+          Misc
+          <a href="javascript:void(0)" (click)="createNewItem('Misc')" class="ml-2 text-body">
+            <i class="fas fa-plus"></i>
+          </a>
+        </h3>
+        <app-budget-checklist [type]="'Misc'" [selMonth]="curMonth"
+          (addItem)="onAddItem($event)"></app-budget-checklist>
+
+      </div>
+      <div class="col-12 col-md-3 bg-light">
+        <div class="sticky-top">
+          <h3 class="mt-4 d-inline-block align-middle">This Month</h3>
+          <div class="d-flex justify-content-between align-items-top fw-bold">
+            <div>Income</div>
+            <div>{{ totalIncome$ | async | currency }}</div>
+          </div>
+          <div class="mt-3 d-flex justify-content-between fw-bold">
+            <div>Outgo</div>
+            <div>{{ ((totalTithe$ | async) +
+              (totalCredit$ | async) +
+              (totalSavings$ | async) +
+              (totalToGermany$ | async) +
+              (totalMisc$ | async)
+              ) | currency }}</div>
+          </div>
+          <div class="m-1">
+            <div class="d-flex justify-content-between">
+              <div>Tithe</div>
+              <div>{{ totalTithe$ | async | currency }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>Credit</div>
+              <div>{{ totalCredit$ | async | currency }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>Savings</div>
+              <div>{{ totalSavings$ | async | currency }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>To Germany</div>
+              <div>{{ totalToGermany$ | async | currency }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>Misc</div>
+              <div>{{ totalMisc$ | async | currency }}</div>
+            </div>
+          </div>
+          <div class="mt-3 d-flex justify-content-between align-items-top fw-bold">
+            <div>Net Income</div>
+            <div>{{ ((totalIncome$ | async) -
+              (totalTithe$ | async) -
+              (totalCredit$ | async) -
+              (totalSavings$ | async) -
+              (totalToGermany$ | async) -
+              (totalMisc$ | async)
+              ) | currency }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

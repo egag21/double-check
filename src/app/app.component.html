@@ -113,7 +113,14 @@
           </div>
           <div class="mt-3 d-flex justify-content-between align-items-top fw-bold">
             <div>Net Income</div>
-            <div>{{ ((totalIncome$ | async) -
+            <div [ngClass]="{
+              'text-danger': ((totalIncome$ | async) -
+                             (totalTithe$ | async) -
+                             (totalCredit$ | async) -
+                             (totalSavings$ | async) -
+                             (totalToGermany$ | async) -
+                             (totalMisc$ | async)) < 0
+           }">{{ ((totalIncome$ | async) -
               (totalTithe$ | async) -
               (totalCredit$ | async) -
               (totalSavings$ | async) -
